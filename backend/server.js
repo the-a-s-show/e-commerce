@@ -16,12 +16,21 @@ const port = process.env.PORT || 4000;
 
 // CORS — must be before everything
 const corsOptions = {
-  origin: [
-    'https://xor-frontend-git-main-abdus-samad-s-projects3.vercel.app',
-    'https://e-commerce-iota-olive-16.vercel.app',
-    'http://localhost:5173'
-    , 'http://localhost:5174'
-  ],
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'http://localhost:5174',
+    ];
+
+    // Allow any vercel.app subdomain (covers all your deployments)
+    const isVercelApp = origin && origin.endsWith('.vercel.app');
+    
+    if (!origin || isVercelApp || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'token'],
   credentials: true
