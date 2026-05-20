@@ -21,18 +21,19 @@ const startServer = async () => {
 
     app.post('/api/order/stripe-webhook', express.raw({ type: 'application/json' }), handleStripeWebhook);
 
-    // middlewares
-    app.use(express.json());
-    app.use(cors({
+    // CORS config
+    const corsOptions = {
       origin: [
-        'http://localhost:5173',
-        'http://localhost:3000',
         'https://xor-frontend-git-main-abdus-samad-s-projects3.vercel.app',
-        'https://xor-ecommerce.vercel.app',
-        'https://xor-admin.vercel.app'
+        'http://localhost:5173'
       ],
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'token'],
       credentials: true
-    }));
+    };
+    app.use(cors(corsOptions));
+    app.options('*', cors(corsOptions)); // Handle preflight
+    app.use(express.json());
 
     // api endpoint
     app.use('/api/user', userRouter);
