@@ -1,30 +1,15 @@
-  {
-    "version": 2,
-    "builds": [
-        {
-            "src": "server.js",
-            "use": "@vercel/node",
-            "config": {
-                "includeFiles": [
-                    "dist/**"
-                ]
-            }
-        }
-    ],
-        "headers": [
-            {
-                "source": "/api/(.*)",
-                "headers": [
-                    { "key": "Access-Control-Allow-Origin", "value": "https://xor-frontend-git-main-abdus-samad-s-projects3.vercel.app" },
-                    { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,OPTIONS" },
-                    { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization, token" }
-                ]
-            }
-        ],
-        "routes": [
-                {
-                        "src": "/(.*)",
-                        "dest": "server.js"
-                }
-        ]
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/server.js"
+    }
+  ]
 }

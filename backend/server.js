@@ -14,6 +14,19 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 4000;
 
+// CORS must be first, before webhook and routes
+const corsOptions = {
+  origin: [
+    'https://xor-frontend-git-main-abdus-samad-s-projects3.vercel.app',
+    'http://localhost:5173'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'token'],
+  credentials: true
+};
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
 const startServer = async () => {
   try {
     await connectDB();
@@ -21,18 +34,6 @@ const startServer = async () => {
 
     app.post('/api/order/stripe-webhook', express.raw({ type: 'application/json' }), handleStripeWebhook);
 
-    // CORS config
-    const corsOptions = {
-      origin: [
-        'https://xor-frontend-git-main-abdus-samad-s-projects3.vercel.app',
-        'http://localhost:5173'
-      ],
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Content-Type', 'Authorization', 'token'],
-      credentials: true
-    };
-    app.use(cors(corsOptions));
-    app.options('*', cors(corsOptions)); // Handle preflight
     app.use(express.json());
 
     // api endpoint
