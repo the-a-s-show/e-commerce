@@ -23,7 +23,16 @@ const startServer = async () => {
 
     // middlewares
     app.use(express.json());
-    app.use(cors());
+    app.use(cors({
+      origin: [
+        'http://localhost:5173',
+        'http://localhost:3000',
+        'https://xor-frontend-git-main-abdus-samad-s-projects3.vercel.app',
+        'https://xor-ecommerce.vercel.app',
+        'https://xor-admin.vercel.app'
+      ],
+      credentials: true
+    }));
 
     // api endpoint
     app.use('/api/user', userRouter);
