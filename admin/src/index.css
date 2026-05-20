@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: inherit;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f9fafb; /* gray-50 */
+}
+
+/* Goo font for admin - place your font files at `src/assets/fonts/Goo.woff2` and `Goo.woff` */
+@font-face {
+  font-family: 'Goo';
+  src: url('./assets/fonts/Goo.woff2') format('woff2');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Goo';
+  src: url('./assets/fonts/Goo.woff') format('woff');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
