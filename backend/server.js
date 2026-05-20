@@ -14,7 +14,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 4000;
 
-// CORS must be first, before webhook and routes
+// CORS — must be before everything
 const corsOptions = {
   origin: [
     'https://xor-frontend-git-main-abdus-samad-s-projects3.vercel.app',
@@ -25,18 +25,20 @@ const corsOptions = {
   credentials: true
 };
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.options(/.*/, cors(corsOptions)); // ✅ Fixed: was '*' which breaks newer path-to-regexp
+
+// Stripe webhook — must be before express.json() (needs raw body)
+app.post('/api/order/stripe-webhook', express.raw({ type: 'application/json' }), handleStripeWebhook);
+
+// JSON parser — after stripe webhook
+app.use(express.json());
 
 const startServer = async () => {
   try {
     await connectDB();
     connectCloudinary();
 
-    app.post('/api/order/stripe-webhook', express.raw({ type: 'application/json' }), handleStripeWebhook);
-
-    app.use(express.json());
-
-    // api endpoint
+    // API routes
     app.use('/api/user', userRouter);
     app.use('/api/product', productRouter);
     app.use('/api/order', orderRouter);
