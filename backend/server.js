@@ -18,7 +18,9 @@ const port = process.env.PORT || 4000;
 const corsOptions = {
   origin: [
     'https://xor-frontend-git-main-abdus-samad-s-projects3.vercel.app',
+    'https://e-commerce-iota-olive-16.vercel.app',
     'http://localhost:5173'
+    , 'http://localhost:5174'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'token'],
