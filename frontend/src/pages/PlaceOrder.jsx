@@ -103,7 +103,9 @@ const PlaceOrder = () => {
             };
 
             if (method === 'stripe') {
-                const response = await axios.post(backendUrl + '/api/order/stripe-checkout', orderData);
+                const response = await axios.post(backendUrl + '/api/order/stripe-checkout', orderData, {
+                    headers: { token }
+                });
 
                 if (response.data.success && response.data.url) {
                     const pendingOrder = {
@@ -130,7 +132,9 @@ const PlaceOrder = () => {
                     return;
                 }
 
-                const response = await axios.post(backendUrl + '/api/order/razorpay-order', orderData);
+                const response = await axios.post(backendUrl + '/api/order/razorpay-order', orderData, {
+                    headers: { token }
+                });
 
                 if (!response.data.success || !response.data.razorpayOrder) {
                     toast.error(response.data.message || 'Unable to start Razorpay payment');
@@ -168,6 +172,8 @@ const PlaceOrder = () => {
                                 razorpay_signature: paymentResponse.razorpay_signature,
                                 ...orderData,
                                 paymentMethod: 'Razorpay'
+                            }, {
+                                headers: { token }
                             });
 
                             if (verifyResponse.data.success) {
@@ -194,7 +200,9 @@ const PlaceOrder = () => {
                 return;
             }
 
-            const response = await axios.post(backendUrl + '/api/order/place', orderData);
+            const response = await axios.post(backendUrl + '/api/order/place', orderData, {
+                headers: { token }
+            });
 
             if (response.data.success) {
                 toast.success('Order placed successfully!');
